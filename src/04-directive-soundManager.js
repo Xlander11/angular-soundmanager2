@@ -37,6 +37,11 @@ ngSoundManager.directive('soundManager', ['$filter', 'angularPlayer',
                         scope.playlist = data;
                     });
                 });
+                scope.$on('currentTrack:remainingTime', function(event, data) {
+                    scope.$apply(function() {
+                        scope.remainingDuration = $filter('humanTime')(data);
+                    });
+                });
             }
         };
     }

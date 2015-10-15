@@ -7,6 +7,7 @@ ngSoundManager.factory('angularPlayer', ['$rootScope', '$log',
             isPlaying = false,
             volume = 90,
             trackProgress = 0,
+            remainingTime = 0,
             playlist = [];
         
         return {
@@ -70,6 +71,10 @@ ngSoundManager.factory('angularPlayer', ['$rootScope', '$log',
                             $rootScope.$broadcast('currentTrack:position', this.position);
                             //broadcast track duration
                             $rootScope.$broadcast('currentTrack:duration', this.duration);
+
+                            //broadcast track remaining time
+                            remainingTime = this.duration - this.position;
+                            $rootScope.$broadcast('currentTrack:remainingTime', remainingTime);
                         },
                         onfinish: function() {
                             soundManager._writeDebug(this.id + ' finished playing');

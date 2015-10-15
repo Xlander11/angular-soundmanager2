@@ -4491,10 +4491,9 @@ ngSoundManager.factory('angularPlayer', ['$rootScope', '$log',
                             //broadcast track duration
                             $rootScope.$broadcast('currentTrack:duration', this.duration);
 
-                            //Alexandre - broadcast remaining time
+                            //broadcast track remaining time
                             remainingTime = this.duration - this.position;
                             $rootScope.$broadcast('currentTrack:remainingTime', remainingTime);
-                            //end Alexandre
                         },
                         onfinish: function() {
                             soundManager._writeDebug(this.id + ' finished playing');
@@ -4834,12 +4833,6 @@ ngSoundManager.directive('soundManager', ['$filter', 'angularPlayer',
                         scope.currentDuration = $filter('humanTime')(data);
                     });
                 });
-                //Alexandre - Added event for remaning time
-                scope.$on('currentTrack:remainingTime', function(event, data) {
-                    scope.$apply(function() {
-                        scope.remainingDuration = $filter('humanTime')(data);
-                    });
-                });
                 scope.isPlaying = false;
                 scope.$on('music:isPlaying', function(event, data) {
                     scope.$apply(function() {
@@ -4850,6 +4843,11 @@ ngSoundManager.directive('soundManager', ['$filter', 'angularPlayer',
                 scope.$on('player:playlist', function(event, data) {
                     scope.$apply(function() {
                         scope.playlist = data;
+                    });
+                });
+                scope.$on('currentTrack:remainingTime', function(event, data) {
+                    scope.$apply(function() {
+                        scope.remainingDuration = $filter('humanTime')(data);
                     });
                 });
             }
